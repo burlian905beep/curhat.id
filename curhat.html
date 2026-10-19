@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>curhat.id | Safe Space for Your Thoughts</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: VT323 (90s Retro) & Space Grotesk (Gen Z) -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=VT323&display=swap" rel="stylesheet">
+    <!-- Confetti for Success -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'retro': ['"VT323"', 'monospace'],
+                        'modern': ['"Space Grotesk"', 'sans-serif'],
+                    },
+                    colors: {
+                        'acid': '#ccff00',
+                        'magenta': '#ff00ff',
+                        'cyan': '#00ffff',
+                        'dark': '#0a0a0f',
+                        'card': '#16161f'
+                    },
+                    boxShadow: {
+                        'neo': '5px 5px 0px 0px #ccff00',
+                        'neo-hover': '2px 2px 0px 0px #ccff00',
+                        'neo-magenta': '5px 5px 0px 0px #ff00ff',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0a0a0f;
+            background-image: 
+                linear-gradient(rgba(204, 255, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(204, 255, 0, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+        .glass {
+            background: rgba(22, 22, 31, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 15s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .hidden-section { display: none; }
+    </style>
+</head>
+<body class="font-modern text-gray-200 min-h-screen flex flex-col items-center justify-center p-4">
+
+    <!-- 90s Marquee Banner -->
+    <div class="fixed top-0 left-0 w-full bg-magenta text-black font-retro text-xl py-1 z-50 border-b-2 border-acid">
+        <div class="marquee-container">
+            <div class="marquee-content">
+                ✨ WELCOME TO CURHAT.ID ✨ NO JUDGMENT ZONE ✨ SPILL YOUR TEA ✨ AMAN TERKENDALI ✨ NO CAP, WE LISTEN ✨
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <main class="w-full max-w-4xl mt-12">
+        
+        <!-- HEADER -->
+        <div class="text-center mb-10">
+            <h1 class="font-retro text-6xl md:text-8xl text-acid mb-2 tracking-wider drop-shadow-[0_0_10px_rgba(204,255,0,0.5)]">
+                curhat.id
+            </h1>
+            <p class="text-gray-400 text-lg md:text-xl font-light">
+                Tempat aman buat <span class="text-cyan font-semibold">spill</span> semua uneg-uneg. <br>
+                Pilih topik, isi, kirim. Gampang kan? 😎
+            </p>
+        </div>
+
+        <!-- STEP 1: PILIH TOPIK -->
+        <div id="step-topic" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Cards will be injected by JS -->
+        </div>
+
+        <!-- STEP 2: FORM CURHAT -->
+        <div id="step-form" class="hidden-section glass rounded-2xl p-6 md:p-8 shadow-neo border-2 border-acid relative">
+            <button onclick="goBackToTopics()" class="absolute top-4 left-4 text-gray-400 hover:text-acid font-retro text-xl">
+                ← Back to Topics
+            </button>
+            
+            <h2 id="form-title" class="font-retro text-4xl text-magenta text-center mb-6 mt-4"></h2>
+            
+            <form id="curhatForm" class="space-y-5">
+                <input type="hidden" id="sheetName" name="sheetName">
+                
+                <div>
+                    <label class="block font-retro text-2xl text-cyan mb-1">Nama / Panggilan</label>
+                    <input type="text" id="nama" name="nama" required placeholder="Misal: Anonymous, Budi, dll" 
+                        class="w-full bg-dark border-2 border-gray-700 rounded-lg p-3 text-white focus:border-acid focus:outline-none focus:shadow-neo-hover transition-all placeholder-gray-600">
+                </div>
+
+                <div>
+                    <label class="block font-retro text-2xl text-cyan mb-1">No. WhatsApp</label>
+                    <input type="tel" id="no_wa" name="no_wa" required placeholder="08xxxxxxxxxx" 
+                        class="w-full bg-dark border-2 border-gray-700 rounded-lg p-3 text-white focus:border-acid focus:outline-none focus:shadow-neo-hover transition-all placeholder-gray-600">
+                </div>
+
+                <div>
+                    <label class="block font-retro text-2xl text-cyan mb-1">Curhat / Konsul / Persoalanku</label>
+                    <textarea id="curhat" name="curhat" rows="5" required placeholder="Tulis di sini, semua aman bersama kami..." 
+                        class="w-full bg-dark border-2 border-gray-700 rounded-lg p-3 text-white focus:border-acid focus:outline-none focus:shadow-neo-hover transition-all placeholder-gray-600"></textarea>
+                </div>
+
+                <button type="submit" id="submitBtn" class="w-full bg-acid text-black font-bold font-retro text-3xl py-4 rounded-lg shadow-neo hover:shadow-neo-hover hover:translate-x-[3px] hover:translate-y-[3px] transition-all flex items-center justify-center gap-2">
+                    <span>KIRIM CURHAT</span> 🚀
+                </button>
+            </form>
+        </div>
+
+        <!-- STEP 3: SUKSES -->
+        <div id="step-success" class="hidden-section text-center glass rounded-2xl p-8 md:p-12 border-2 border-cyan shadow-neo-magenta">
+            <div class="text-6xl mb-4">🎉✨🤝</div>
+            <h2 class="font-retro text-5xl text-acid mb-4">Curhat Berhasil Dikirim!</h2>
+            <p class="text-gray-300 text-lg mb-8">
+                Tenang, cerita kamu udah aman tersimpan di database kami. <br>
+                Kamu hebat sudah berani berbagi! 💪
+            </p>
+            <div class="flex flex-col md:flex-row gap-4 justify-center">
+                <button onclick="resetForm()" class="bg-magenta text-black font-bold font-retro text-2xl px-8 py-3 rounded-lg shadow-neo-magenta hover:shadow-none hover:translate-x-[5px] hover:translate-y-[5px] transition-all">
+                    Curhat Topik Lain 🔄
+                </button>
+                <button onclick="window.close()" class="bg-gray-700 text-white font-bold font-retro text-2xl px-8 py-3 rounded-lg border-2 border-gray-500 hover:bg-gray-600 transition-all">
+                    Selesai & Keluar 🚪
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="mt-12 mb-4 text-gray-600 font-retro text-xl text-center">
+        &copy; 2026 curhat.id | Made with 💚 for Gen Z & Alpha
+    </footer>
+
+    <script>
+        // --- KONFIGURASI ---
+        // Ganti URL ini jika nanti kamu membuat deployment baru
+        const API_URL = "https://script.google.com/macros/s/AKfycbw76R1EVav8d6a1vi5TIjYADPZeR06-0Sr4rllthwbqTye03c11LmzKCMSeplYbGSgZjg/exec";
+
+        // --- DATA TOPIK (Harus sesuai persis dengan nama Sheet di Google Sheets) ---
+        const topics = [
+            { name: "Masalah Diri Sendiri dan Perasaan", sheet: "Masalah_Diri_Sendiri_dan_Perasaan", icon: "🧠" },
+            { name: "Keluarga dan Rumah", sheet: "Keluarga_dan_Rumah", icon: "🏠" },
+            { name: "Pertemanan dan Lingkungan Sosial", sheet: "Pertemanan_dan_Lingkungan_Sosial", icon: "👥" },
+            { name: "Percintaan dan Hubungan", sheet: "Percintaan_dan_Hubungan", icon: "💖" },
+            { name: "Sekolah, Kuliah, dan Pendidikan", sheet: "Sekolah_Kuliah_dan_Pendidikan", icon: "🎓" },
+            { name: "Pekerjaan dan Masa Depan", sheet: "Pekerjaan_dan_Masa_Depan", icon: "💼" },
+            { name: "Keuangan dan Kebutuhan Hidup", sheet: "Keuangan_dan_Kebutuhan_Hidup", icon: "💸" },
+            { name: "Kebiasaan dan Gaya Hidup", sheet: "Kebiasaan_dan_Gaya_Hidup", icon: "🎮" },
+            { name: "Agama, Ibadah, dan Makna Hidup", sheet: "Agama_Ibadah_dan_Makna_Hidup", icon: "🕌" },
+            { name: "Masalah Pribadi yang Lebih Mendalam", sheet: "Masalah_Pribadi_yang_Lebih_Mendalam", icon: "🌌" }
+        ];
+
+        // --- RENDER TOPIK ---
+        const topicContainer = document.getElementById('step-topic');
+        topics.forEach(topic => {
+            const card = document.createElement('div');
+            card.className = "glass p-6 rounded-xl border-2 border-gray-700 hover:border-acid hover:shadow-neo cursor-pointer transition-all group";
+            card.innerHTML = `
+                <div class="text-4xl mb-3 group-hover:scale-110 transition-transform">${topic.icon}</div>
+                <h3 class="font-bold text-lg text-white group-hover:text-acid transition-colors">${topic.name}</h3>
+                <p class="text-sm text-gray-500 mt-2 font-retro text-xl">Click to spill ></p>
+            `;
+            card.onclick = () => openForm(topic);
+            topicContainer.appendChild(card);
+        });
+
+        // --- NAVIGASI ---
+        function openForm(topic) {
+            document.getElementById('step-topic').classList.add('hidden-section');
+            document.getElementById('step-form').classList.remove('hidden-section');
+            document.getElementById('form-title').innerText = `${topic.icon} ${topic.name}`;
+            document.getElementById('sheetName').value = topic.sheet;
+        }
+
+        function goBackToTopics() {
+            document.getElementById('step-form').classList.add('hidden-section');
+            document.getElementById('step-topic').classList.remove('hidden-section');
+            document.getElementById('curhatForm').reset();
+        }
+
+        function resetForm() {
+            document.getElementById('step-success').classList.add('hidden-section');
+            document.getElementById('step-topic').classList.remove('hidden-section');
+            document.getElementById('curhatForm').reset();
+        }
+
+        // --- SUBMIT FORM ---
+        document.getElementById('curhatForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const btn = document.getElementById('submitBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = "Mengirim... ⏳";
+            btn.disabled = true;
+
+            const formData = new FormData(this);
+
+            try {
+                // Fetch ke Google Apps Script
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    // Tampilkan sukses
+                    document.getElementById('step-form').classList.add('hidden-section');
+                    document.getElementById('step-success').classList.remove('hidden-section');
+                    
+                    // Efek Confetti (Gen Alpha vibe)
+                    confetti({
+                        particleCount: 150,
+                        spread: 70,
+                        origin: { y: 0.6 },
+                        colors: ['#ccff00', '#ff00ff', '#00ffff']
+                    });
+                } else {
+                    alert("Ups, ada error: " + result.message);
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Gagal mengirim. Coba periksa koneksi internet kamu.");
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
